@@ -23,6 +23,7 @@ mongoose.connection.on("disconnected", ()=>{
 })
 
 // 미들웨어
+app.use(express.json())
 app.use("/api/auth", authRoute)
 app.use("/api/users", usersRoute)
 app.use("/api/hotels", hotelsRoute)
