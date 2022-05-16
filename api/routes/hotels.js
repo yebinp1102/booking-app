@@ -1,5 +1,6 @@
 import express from 'express'
 import Hotel from '../models/Hotel.js'
+import { createError } from '../utils/error.js';
 
 const router = express.Router();
 
@@ -50,12 +51,12 @@ router.get('/:id', async (req, res)=>{
 })
 
 // 모든 호텔 데이터 가져오기
-router.get('/', async (req, res)=>{
+router.get('/', async (req, res, next)=>{
   try{
     const hotels = await Hotel.find()
     res.status(200).json(hotels)
   }catch(err){
-    res.status(500).json(err)
+    next(err)
   }
 })
 
