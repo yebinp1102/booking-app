@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import styled from 'styled-components'
 import Featured from '../components/Featured'
 import PropertyList from '../components/PropertyList'
+import FeaturedProperties from '../components/FeaturedProperties'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
         <h1 className='homeTitle'>유형별 숙소</h1>
         <PropertyList />
         <h1 className='homeTitle'>후기 좋은 숙소들</h1>
+        <FeaturedProperties />
       </div>
     </HomePage>
   )
