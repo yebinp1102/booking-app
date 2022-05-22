@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Featured from '../components/Featured'
 import PropertyList from '../components/PropertyList'
 import FeaturedProperties from '../components/FeaturedProperties'
+import MailList from '../components/MailList'
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
         <PropertyList />
         <h1 className='homeTitle'>후기 좋은 숙소들</h1>
         <FeaturedProperties />
+        <MailList />
       </div>
     </HomePage>
   )
