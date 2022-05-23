@@ -19,6 +19,7 @@ export default MailList
 const List = styled.div`
   width: 100%;
   margin-top: 50px;
+  margin-bottom: 20px;
   background-color: #003580;
   color: white;
   display: flex;

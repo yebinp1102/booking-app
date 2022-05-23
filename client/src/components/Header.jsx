@@ -45,7 +45,7 @@ const Header = ({type}) => {
   }
 
   return (
-    <Head>
+    <HeaderWrap>
       <div className={type === 'list' ? 'headerContainer listMode' : 'headerContainer'}>
         <div className='headerList'>
           <div className='headerListItem active'>
@@ -175,13 +175,13 @@ const Header = ({type}) => {
           </>
         )}
       </div>
-    </Head>
+    </HeaderWrap>
   )
 }
 
 export default Header
 
-const Head = styled.div`
+const HeaderWrap = styled.div`
   background-color: #003580;
   color: white;
   display: flex;
