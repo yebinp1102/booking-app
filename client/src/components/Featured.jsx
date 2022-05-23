@@ -1,42 +1,46 @@
 import React from 'react'
 import styled from 'styled-components'
+import useFetch from '../hooks/useFetch'
 
 const Featured = () => {
+  const {data, loading} = useFetch("hotels/countByCity?cities=경주,부산,서울")
   return (
     <FeaturedWrap>
-      <div className='featuredItem'>
-        <img 
-          src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o="
-          className='featuredImg'
-          alt='숙소 유형 사진'
-        />
-        <div className='featuredTitles'>
-          <h1>속초</h1>
-          <h2>59개의 숙소</h2>
+      {loading ? "로딩 중입니다. 잠시만 기다려주세요" : <>
+        <div className='featuredItem'>
+          <img 
+            src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o="
+            className='featuredImg'
+            alt='숙소 유형 사진'
+          />
+          <div className='featuredTitles'>
+            <h1>경주</h1>
+            <h2>{data[0]}개의 숙소</h2>
+          </div>
         </div>
-      </div>
-      <div className='featuredItem'>
-        <img 
-          src="https://cf.bstatic.com/xdata/images/city/max500/690334.webp?k=b99df435f06a15a1568ddd5f55d239507c0156985577681ab91274f917af6dbb&o="
-          className='featuredImg'
-          alt='숙소 유형 사진'
-        />
-        <div className='featuredTitles'>
-          <h1>판교</h1>
-          <h2>33개의 숙소</h2>
+        <div className='featuredItem'>
+          <img 
+            src="https://cf.bstatic.com/xdata/images/city/max500/690334.webp?k=b99df435f06a15a1568ddd5f55d239507c0156985577681ab91274f917af6dbb&o="
+            className='featuredImg'
+            alt='숙소 유형 사진'
+          />
+          <div className='featuredTitles'>
+            <h1>부산</h1>
+            <h2>{data[1]}개의 숙소</h2>
+          </div>
         </div>
-      </div>
-      <div className='featuredItem'>
-        <img 
-          src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
-          className='featuredImg'
-          alt='숙소 유형 사진'
-        />
-        <div className='featuredTitles'>
-          <h1>제주도</h1>
-          <h2>213개의 숙소</h2>
+        <div className='featuredItem'>
+          <img 
+            src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
+            className='featuredImg'
+            alt='숙소 유형 사진'
+          />
+          <div className='featuredTitles'>
+            <h1>서울</h1>
+            <h2>{data[2]}개의 숙소</h2>
+          </div>
         </div>
-      </div>
+      </>}
     </FeaturedWrap>
   )
 }
