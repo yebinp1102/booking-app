@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import { format } from 'date-fns'
 import { DateRange } from 'react-date-range'
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
 
 // svg icons
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -17,7 +19,7 @@ const Header = ({type}) => {
   const navigate = useNavigate()
   const [destination, setDestination] = useState('')
   const [openDate, setOpenDate] = useState(false)
-  const [date, setDate] = useState([
+  const [dates, setDates] = useState([
     {
       startDate: new Date(),
       endDate: new Date(),
@@ -41,7 +43,7 @@ const Header = ({type}) => {
   }
 
   const handleSearch = () => {
-    navigate('/hotels', {state: {destination, date, options}})
+    navigate('/hotels', {state: {destination, dates, options}})
   }
 
   return (
@@ -87,19 +89,19 @@ const Header = ({type}) => {
               </div>
               {/* 날짜 필터 */}
               <div className='headerSearchItem'>
-                <CalendarMonthOutlinedIcon />
+                <CalendarMonthOutlinedIcon className='headerIcon' />
                 <span
                   onClick={() => setOpenDate(!openDate)}
                   className='headerSearchText'
-                >{`${format(date[0].startDate, "yyyy/MM/dd")} 부터 ${format(date[0].endDate, "yyyy/MM/dd")} 까지`}</span>
+                >{`${format(dates[0]?.startDate, "yyyy/MM/dd")} 부터 ${format(dates[0]?.endDate, "yyyy/MM/dd")} 까지`}</span>
                 {openDate && (
                   <DateRange 
                     editableDateInputs={true}
-                    onChange={(item)=> setDate([item.selection])}
+                    onChange={(item) => setDates([item.selection])}
                     moveRangeOnFirstSelection={false}
-                    ranges={date}
-                    minDate={new Date()}
+                    ranges={dates}
                     className="date"
+                    minDate={new Date()}
                   />
                 )}
               </div>
@@ -193,33 +195,33 @@ const HeaderWrap = styled.div`
     max-width: 1024px;
     margin: 20px 0px 100px 0px;
   }
-
+  
   .headerContainer.listMode {
     margin: 20px 0px 0px 0px;
   }
-
+  
   .headerList {
     display: flex;
     gap: 40px;
     margin-bottom: 50px;
   }
-
+  
   .headerListItem {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-
+  
   .headerListItem.active {
     border: 1px solid white;
     padding: 10px;
     border-radius: 20px;
   }
-
+  
   .headerDesc {
     margin: 20px 0px;
   }
-
+  
   .headerBtn {
     background-color: #0071c2;
     color: white;
@@ -227,9 +229,8 @@ const HeaderWrap = styled.div`
     border: none;
     padding: 10px;
     cursor: pointer;
-    border-radius: 5px;
   }
-
+  
   .headerSearch {
     height: 30px;
     background-color: white;
@@ -244,37 +245,33 @@ const HeaderWrap = styled.div`
     width: 100%;
     max-width: 1024px;
   }
-
+  
   .headerIcon {
     color: lightgray;
   }
-
+  
   .headerSearchItem {
     display: flex;
     align-items: center;
     gap: 10px;
-
-    svg{
-      color: lightgray;
-    }
   }
-
+  
   .headerSearchInput {
     border: none;
     outline: none;
   }
-
+  
   .headerSearchText {
     color: lightgray;
     cursor: pointer;
   }
-
+  
   .date {
     position: absolute;
     top: 50px;
     z-index: 2;
   }
-
+  
   .options {
     z-index: 2;
     position: absolute;
@@ -285,14 +282,14 @@ const HeaderWrap = styled.div`
     -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
     box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
   }
-
+  
   .optionItem {
     width: 200px;
     display: flex;
     justify-content: space-between;
     margin: 10px;
   }
-
+  
   .optionCounter {
     display: flex;
     align-items: center;
@@ -300,11 +297,7 @@ const HeaderWrap = styled.div`
     font-size: 12px;
     color: black;
   }
-
-  .optionText{
-    align-self: center;
-  }
-
+  
   .optionCounterButton {
     width: 30px;
     height: 30px;
@@ -313,7 +306,7 @@ const HeaderWrap = styled.div`
     cursor: pointer;
     background-color: white;
   }
-
+  
   .optionCounterButton:disabled {
     cursor: not-allowed;
   }
