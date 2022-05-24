@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
     <Nav>
       <div className='navContainer'>
-        <span className='logo'>예약 앱</span>
+        <Link to='/' style={{color:'inherit', textDecoration: 'none'}}>
+          <span className='logo'>예약 앱</span>
+        </Link>
         <div className='navItems'>
           <button className='navBtn'>회원가입</button>
           <button className='navBtn'>로그인</button>

@@ -24,9 +24,7 @@ mongoose.connection.on("disconnected", ()=>{
   console.log('데이터베이스 연결에 실패 했습니다.')
 })
 
-app.use(cors({
-  origin: ['http://localhost:5000/api']
-}))
+app.use(cors())
 // 미들웨어
 app.use(cookieParser())
 app.use(express.json())
