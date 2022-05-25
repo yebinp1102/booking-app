@@ -6,10 +6,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Footer from '../components/Footer';
 import MailList from '../components/MailList';
+import useFetch from '../hooks/useFetch';
+import { useLocation } from 'react-router-dom';
 
 const Hotel = () => {
+  const location = useLocation()
+  // location의 pathname이라는 프로퍼티는 URL 정보를 담고 있음. 이것을 이용함.
+  const id = location.pathname.split('/')[2] // pathname에서 필요한 것은 / 뒤의 숙소의 고유 id
   const [open, setOpen] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
+
+  const {data, loading} = useFetch(`/hotels/find/${id}`)
 
   const handleMove = (direction) => {
     let newSlideNumber;
@@ -26,56 +33,40 @@ const Hotel = () => {
     setOpen(true)
   }
 
-  const photos = [
-    {
-      src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
-    },
-    {
-      src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707367.jpg?k=cbacfdeb8404af56a1a94812575d96f6b80f6740fd491d02c6fc3912a16d8757&o=&hp=1",
-    },
-    {
-      src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261708745.jpg?k=1aae4678d645c63e0d90cdae8127b15f1e3232d4739bdf387a6578dc3b14bdfd&o=&hp=1",
-    },
-    {
-      src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707776.jpg?k=054bb3e27c9e58d3bb1110349eb5e6e24dacd53fbb0316b9e2519b2bf3c520ae&o=&hp=1",
-    },
-    {
-      src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261708693.jpg?k=ea210b4fa329fe302eab55dd9818c0571afba2abd2225ca3a36457f9afa74e94&o=&hp=1",
-    },
-    {
-      src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1",
-    },
-  ];
-  
-
   return (
     <div>
       <Header type="list" />
-      <HotelWrap>
-        {/* 슬라이더 */}
+      {loading ? "로딩 중 입니다." : <HotelWrap>
         {open && (
           <div className='slider'>
             <CloseIcon onClick={()=>setOpen(false)} className="close" />
             <ArrowBackIcon onClick={()=>handleMove("left")} className="arrow" />
+            <div className="sliderWrapper">
+                <img
+                  src={data.photos[slideNumber]}
+                  alt=""
+                  className="sliderImg"
+                />
+              </div>
             <ArrowForwardIcon onClick={()=>handleMove("right")} className="arrow" />
           </div>
         )}
         <div className='hotelWrapper'>
           <button className='bookNow'>지금 예약 해보세요!</button>
-          <h1 className='hotelTitle'>서울 신라 호텔</h1>
+          <h1 className='hotelTitle'>{data.name}</h1>
           <div className='hotelAddress'>
-            <span>서울시 강남구 125거리 3번지</span>
+            <span>{data.address}</span>
           </div>
-          <span className='hotelDistance'>서울 중심인 강남에서 500m 거리에 위치 합니다</span>
+          <span className='hotelDistance'>서울 중심인 강남에서 {data.distance}m 거리에 위치 합니다</span>
           <span className='hotelPriceHightlight'>
             5월 31일까지 10만원 이상 결제하시는 고객에게 공항 무료 픽업 서비스를 제공합니다.
           </span>
           <div className='hotelImages'>
-            {photos.map((photo, i) => (
+            {data.photos?.map((photo, i) => (
               <div className='hotelImgWrapper' key={i}>
                 <img
                   onClick={()=>handleOpen(i)}
-                  src={photo.src}
+                  src={photo}
                   alt="숙소 이미지"
                   className='hotelImg'
                 />
@@ -84,12 +75,9 @@ const Hotel = () => {
           </div>
           <div className='hotelDetails'>
             <div className='hotelDetailsTexts'>
-              <h1 className='hotelTitle'>서울 중심에 머무르세요!</h1>
+              <h1 className='hotelTitle'>{data.title}</h1>
               <p className='hotelDesc'>
-                강남역 도보 5분 <br/>
-                신사동 가로수길 도보 15분 <br/>
-                도산 공원 도보 20분 <br/>
-                청담 패션거리 차로 10분 <br/>
+                {data.desc}
               </p>
             </div>
             <div className='hotelDetailsPrice'>
@@ -104,7 +92,7 @@ const Hotel = () => {
         </div>
         <MailList />
         <Footer />
-      </HotelWrap>
+      </HotelWrap>}
     </div>
   )
 }
