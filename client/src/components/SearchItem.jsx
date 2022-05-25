@@ -1,35 +1,36 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const SearchItem = () => {
+const SearchItem = ({item}) => {
   return (
     <ItemContainer>
       <img
-        src="https://cf.bstatic.com/xdata/images/hotel/square600/261707778.webp?k=fa6b6128468ec15e81f7d076b6f2473fa3a80c255582f155cae35f9edbffdd78&o=&s=1"
+        src={item.photos[0]}
         className='siImg'
         alt='썸네일'
       />
       <div className='siDesc'>
-        <h1 className='siTitle'>서울 중앙 호텔</h1>
-        <span className='siDistance'>중앙역에서 500m</span>
+        <h1 className='siTitle'>{item.name}</h1>
+        <span className='siDistance'>중앙역에서 {item.distance}m</span>
         <span className='siTaxiOp'>공항까지 무료 픽업 서비스 제공</span>
         <span className='siSubtitle'>
           에어컨과 어메니티 제공
         </span>
-        <span className='siFeatures'>
-          20평 • 퀸 사이즈 침대 1 • 욕실 1
-        </span>
+        <span className='siFeatures'>{item.desc}</span>
         <span className='siCancelOp'>취소 수수료 없음</span>
       </div>
       <div className='siDetails'>
-        <div className='siRating'>
+        { item.rating && <div className='siRating'>
           <span>훌륭함</span>
-          <button>8.9</button>
-        </div>
+          <button>{item.rating}</button>
+        </div>}
         <div className='siDetailTexts'>
-          <span className='siPrice'>12만원</span>
+          <span className='siPrice'>{item.cheapestPrice}~</span>
           <span className='siTaxOp'>부과세 포함 가격</span>
-          <button className='siCheckButton'>더보기</button>
+          <Link to={`/hotels/${item._id}`}>
+            <button className='siCheckButton'>더보기</button>
+          </Link>
         </div>
       </div>
     </ItemContainer>
