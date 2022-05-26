@@ -15,9 +15,11 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../context/SearchContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Header = ({type}) => {
   const navigate = useNavigate()
+  const { user } = useContext(AuthContext);
   const [destination, setDestination] = useState('')
   const [openDate, setOpenDate] = useState(false)
   const [dates, setDates] = useState([
@@ -79,7 +81,7 @@ const Header = ({type}) => {
           <>
             <h1 className='headerTitle'>최고의 서비스와 합리적인 가격을 원하시나요?</h1>
             <p className='headerDesc'>현재 회원들에게 모든 상품 10% 즉시 할인 쿠폰을 제공하고 있습니다. 회원가입을 하고 더 많은 정보들도 제공 받으세요!</p>
-            <button className='headerBtn'>로그인 / 회원가입</button>
+            { !user && <button className='headerBtn'>로그인 / 회원가입</button>}
             <div className='headerSearch'>
               {/* 주소 검색 */}
               <div className='headerSearchItem'>

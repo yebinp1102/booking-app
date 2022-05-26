@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <Nav>
       <div className='navContainer'>
         <Link to='/' style={{color:'inherit', textDecoration: 'none'}}>
           <span className='logo'>예약 앱</span>
         </Link>
-        <div className='navItems'>
+        {user ? `${user.username}님` : <div className='navItems'>
           <button className='navBtn'>회원가입</button>
           <button className='navBtn'>로그인</button>
-        </div>
+        </div>}
       </div>
     </Nav>
   )
