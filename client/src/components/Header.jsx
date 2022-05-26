@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
 import { format } from 'date-fns'
 import { DateRange } from 'react-date-range'
@@ -14,6 +14,7 @@ import AttractionsIcon from '@mui/icons-material/Attractions';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import BoyOutlinedIcon from '@mui/icons-material/BoyOutlined';
 import { useNavigate } from 'react-router-dom';
+import { SearchContext } from '../context/SearchContext';
 
 const Header = ({type}) => {
   const navigate = useNavigate()
@@ -42,7 +43,10 @@ const Header = ({type}) => {
     })
   }
 
+  const {dispatch} = useContext(SearchContext)
+
   const handleSearch = () => {
+    dispatch({type: "NEW_SEARCH", payload:{destination, dates, options}})
     navigate('/hotels', {state: {destination, dates, options}})
   }
 

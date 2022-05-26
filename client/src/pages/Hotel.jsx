@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import MailList from '../components/MailList';
 import useFetch from '../hooks/useFetch';
 import { useLocation } from 'react-router-dom';
+import { SearchContext } from '../context/SearchContext';
 
 const Hotel = () => {
   const location = useLocation()
@@ -27,6 +28,17 @@ const Hotel = () => {
     }
     setSlideNumber(newSlideNumber)
   }
+
+  const {dates, options} = useContext(SearchContext);
+
+  // 몇 박인지 계산하는 함수
+  const MILLISECONDES_PER_DAY = 1000 * 60 * 60 * 24
+  function dayDifference(startDate, endDate){
+    const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(timeDiff/MILLISECONDES_PER_DAY)
+    return diffDays
+  }
+  const days = (dayDifference(dates[0].endDate, dates[0].startDate))
 
   const handleOpen = (i) => {
     setSlideNumber(i)
@@ -84,7 +96,7 @@ const Hotel = () => {
               <h1>4박 5일동안 최고의 시간을 보내세요!</h1>
               <span>서울 중심구에 위치한 신라 호텔, 위치 점수 9.8로 최상 입니다.</span>
               <h2>
-                <b>40만원</b> (4박 5일)
+                <b>{days * data.cheapestPrice * options.room }만원</b> ({days}박 {days+1}일)
               </h2>
               <button>지금 예약 하세요!</button>
             </div>
