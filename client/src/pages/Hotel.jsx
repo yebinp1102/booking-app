@@ -7,15 +7,20 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Footer from '../components/Footer';
 import MailList from '../components/MailList';
 import useFetch from '../hooks/useFetch';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SearchContext } from '../context/SearchContext';
+import { AuthContext } from '../context/AuthContext';
+import Reserve from '../components/Reserve';
 
 const Hotel = () => {
   const location = useLocation()
   // location의 pathname이라는 프로퍼티는 URL 정보를 담고 있음. 이것을 이용함.
   const id = location.pathname.split('/')[2] // pathname에서 필요한 것은 / 뒤의 숙소의 고유 id
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
+  const [openModal, setOpenModal] = useState(false)
 
   const {data, loading} = useFetch(`/hotels/find/${id}`)
 
@@ -43,6 +48,15 @@ const Hotel = () => {
   const handleOpen = (i) => {
     setSlideNumber(i)
     setOpen(true)
+  }
+
+  // 로그인 했으면 예약을 위한 모달창 보여주고, 아니면 로그인 페이지로 이동
+  const handleClick = () => {
+    if(user){
+      setOpenModal(true);
+    }else{
+      navigate('/login')
+    }
   }
 
   return (
@@ -98,13 +112,14 @@ const Hotel = () => {
               <h2>
                 <b>{days * data.cheapestPrice * options.room }만원</b> ({days}박 {days+1}일)
               </h2>
-              <button>지금 예약 하세요!</button>
+              <button onClick={handleClick}>지금 예약 하세요!</button>
             </div>
           </div>
         </div>
         <MailList />
         <Footer />
       </HotelWrap>}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
     </div>
   )
 }
